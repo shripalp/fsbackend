@@ -61,6 +61,49 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
+const generateId = () => {
+  let maxId;
+  do {
+    maxId = Math.floor(Math.random() * 10000000);
+  } while (persons.find((person) => person.id === maxId));
+
+  return maxId;
+};
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!body.name) {
+    //console.log(body.name);
+    return response.status(400).json({
+      error: "name missing",
+    });
+  } else if (!body.number) {
+    return response.status(400).json({
+      error: "number missing",
+    });
+  } else if (
+    persons.includes(persons.find((person) => person.name === body.name))
+  ) {
+    //console.log(typeof body.name);
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  } else {
+    const person = {
+      id: generateId(),
+      name: body.name,
+      number: body.number,
+    };
+
+    persons = persons.concat(person);
+
+    response.json(person);
+  }
+
+  //console.log(person);
+});
+
 const PORT = 3003;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
