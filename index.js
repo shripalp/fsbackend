@@ -37,10 +37,21 @@ app.get("/info", (request, response) => {
   const currentDate = new Date();
   const timeStamp = currentDate.toString();
   const message = `<p>Phonebook has info for ${persons.length} people <br><br>${timeStamp} </p>`;
-
-  //console.log(message);
-  //response.send(message);
   response.send(message);
+});
+
+app.get("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => {
+    return person.id === id;
+  });
+
+  if (person) {
+    response.json(person);
+  } else {
+    response.statusMessage = "This api doesnot exist";
+    response.status(404).end();
+  }
 });
 
 const PORT = 3003;
