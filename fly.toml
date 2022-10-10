@@ -1,6 +1,6 @@
-# fly.toml file generated for green-dust-5237 on 2022-10-08T15:31:40-06:00
+# fly.toml file generated for proud-frog-2623 on 2022-10-10T17:27:10-06:00
 
-app = "green-dust-5237"
+app = "proud-frog-2623"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
