@@ -64,7 +64,7 @@ app.get("/info", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response, next) => {
-  Phonebook.findById(request.param.id)
+  Phonebook.findById(request.params.id)
     .then((person) => {
       if (person) {
         response.json(person);
@@ -105,7 +105,20 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
-//console.log(person);
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Phonebook.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
+});
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
